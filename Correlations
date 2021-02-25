@@ -1,0 +1,52 @@
+library(quantmod)
+library(tidyverse)
+library(lubridate)
+
+beginc <- as_date("2019-01-01")
+endc <- as_date("2021-02-28")
+
+symbols <- c("XOM", "AAPL", "HUBS", "AMZN", "ZNGA", "SOL", "IDXX", "ATVI", "ADSK", "WIX", "PINS")
+getSymbols(symbols, from = beginc, to = endc)
+stocks <- data.frame(as.xts(merge(XOM, AAPL, HUBS, AMZN, ZNGA, SOL, IDXX, ATVI, ADSK, WIX, PINS)))
+# view(stocks)
+
+# head(stocks)
+
+
+# days_to_keep
+
+
+
+res <- stocks %>%
+  select(ends_with("Close"))
+  
+
+res %>% cor()
+
+#            XOM.Close AAPL.Close HUBS.Close AMZN.Close ZNGA.Close  SOL.Close IDXX.Close ATVI.Close ADSK.Close
+#XOM.Close   1.0000000 -0.7927918 -0.5526530 -0.8094468 -0.7812313 -0.2547070 -0.6614091 -0.8175770 -0.6635791
+#AAPL.Close -0.7927918  1.0000000  0.8775133  0.9482037  0.9090742  0.6145457  0.9370180  0.9629189  0.9446973
+#HUBS.Close -0.5526530  0.8775133  1.0000000  0.8553596  0.7965849  0.7465624  0.9571958  0.8345736  0.9167589
+#AMZN.Close -0.8094468  0.9482037  0.8553596  1.0000000  0.9277821  0.5180726  0.9082367  0.9369697  0.9203204
+#ZNGA.Close -0.7812313  0.9090742  0.7965849  0.9277821  1.0000000  0.5539626  0.8787486  0.9491919  0.9007845
+#SOL.Close  -0.2547070  0.6145457  0.7465624  0.5180726  0.5539626  1.0000000  0.7061604  0.6122939  0.6857495
+#IDXX.Close -0.6614091  0.9370180  0.9571958  0.9082367  0.8787486  0.7061604  1.0000000  0.9037831  0.9337122
+#ATVI.Close -0.8175770  0.9629189  0.8345736  0.9369697  0.9491919  0.6122939  0.9037831  1.0000000  0.9184522
+#ADSK.Close -0.6635791  0.9446973  0.9167589  0.9203204  0.9007845  0.6857495  0.9337122  0.9184522  1.0000000
+#WIX.Close  -0.7164552  0.9012639  0.8535450  0.9620564  0.9258321  0.4731682  0.8933388  0.8979925  0.9001667
+#PINS.Close         NA         NA         NA         NA         NA         NA         NA         NA         NA
+#            WIX.Close PINS.Close
+#XOM.Close  -0.7164552         NA
+#AAPL.Close  0.9012639         NA
+#HUBS.Close  0.8535450         NA
+#AMZN.Close  0.9620564         NA
+#ZNGA.Close  0.9258321         NA
+#SOL.Close   0.4731682         NA
+#IDXX.Close  0.8933388         NA
+#ATVI.Close  0.8979925         NA
+#ADSK.Close  0.9001667         NA
+#WIX.Close   1.0000000         NA
+#PINS.Close         NA          1
+
+# Or more visually...
+res %>%  pairs()
